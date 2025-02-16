@@ -1,5 +1,5 @@
 requests==2.26.0
 configparser==5.0.2
-tencentcloud-sdk-python==3.0.1090
+tencentcloud-sdk-python==3.0.1319
 netifaces
 
