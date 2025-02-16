@@ -4,10 +4,19 @@ import configparser
 import socket
 import os
 import netifaces
+import argparse
 from tencentcloud.common import credential
 from tencentcloud.common.profile.client_profile import ClientProfile
 from tencentcloud.common.profile.http_profile import HttpProfile
 from tencentcloud.teo.v20220901 import teo_client, models
+
+# 创建解析器
+parser = argparse.ArgumentParser(description="命令行参数")
+# 添加 -c 参数，并指定它的帮助信息和类型
+parser.add_argument("-c", "--config", type=str, help="run with config file [配置文件路径]")
+
+# 解析参数
+args = parser.parse_args()
 
 def get_ipv6_address(interface_name):
     # 获取所有网络接口的地址信息
@@ -83,7 +92,11 @@ def get_last_ipv6(secret_id, secret_key, zone_id, domain_names):
 
 def main():
     config = configparser.ConfigParser()
-    config.read('config.conf', encoding='utf-8')
+    config_add = "config.conf"
+    args = parser.parse_args()
+    if args.config:
+        config_add = args.config
+    config.read(config_add, encoding='utf-8')
     secret_id = config.get('DEFAULT', 'SecretId')
     secret_key = config.get('DEFAULT', 'SecretKey')
     zone_id = config.get('DEFAULT', 'ZoneId')
